@@ -9,11 +9,12 @@ use std::net::SocketAddr;
 async fn main() {
     env::init();
 
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], env::get_port()));
 
     let service = RouterService::new(cwb::service()).unwrap();
     let server = Server::bind(&addr).serve(service);
 
+    println!("Service runs on: {:?}", addr);
     if let Err(e) = server.await {
         eprint!("server error: {}", e);
     }
