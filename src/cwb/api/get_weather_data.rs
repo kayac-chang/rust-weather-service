@@ -1,9 +1,8 @@
-use std::cmp::Ordering;
-
 use super::super::logic;
 use super::super::model::resp::Record;
+use std::cmp::Ordering;
 
-use hyper::{http::Result, Body, Request, Response, StatusCode};
+use hyper::{header::CONTENT_TYPE, http::Result, Body, Request, Response, StatusCode};
 use itertools::Itertools;
 use querystring::querify;
 use serde::Serialize;
@@ -28,6 +27,7 @@ where
         serde_json::to_string_pretty(&data).expect("error occured when serialize result payload");
 
     Response::builder()
+        .header(CONTENT_TYPE, "application/json;charset=utf-8")
         .status(StatusCode::OK)
         .body(Body::from(payload))
 }

@@ -1,7 +1,7 @@
 use super::super::logic;
 use super::super::model::resp::Forecast;
 
-use hyper::{http::Result, Body, Request, Response, StatusCode};
+use hyper::{header::CONTENT_TYPE, http::Result, Body, Request, Response, StatusCode};
 use serde::Serialize;
 
 fn response<T>(data: T) -> Result<Response<Body>>
@@ -12,6 +12,7 @@ where
         serde_json::to_string_pretty(&data).expect("error occured when serialize result payload");
 
     Response::builder()
+        .header(CONTENT_TYPE, "application/json;charset=utf-8")
         .status(StatusCode::OK)
         .body(Body::from(payload))
 }
